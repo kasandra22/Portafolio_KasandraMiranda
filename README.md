@@ -1,2 +1,0 @@
-# Portafolio_KasandraMiranda
-Portafolio de KasandraMiranda
