@@ -33,13 +33,13 @@ public class Categoria  implements Serializable{
     @Column (unique = true, nullable = false, length = 50)
     @NotNull
     @Size (max = 50)
-    private String description;
+    private String descripcion;
     
     @Column (length = 1024)
     @Size (max = 1024)
-    private String rutaImage;
+    private String rutaImagen;
     
     @Column (name = "activo")
-    private boolean activo;
+    private Boolean activo;
             
 }

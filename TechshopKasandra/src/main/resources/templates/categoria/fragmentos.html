@@ -4,24 +4,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
 -->
 <!-- fragmento 1 para Agregar categoria en ventana modal -->
-<section th:fragment="agregar">
-
-</section>
-
-<!-- fragmento 2 para el listado de categorias -->
-<section th:fragment="listado" class="p-3">
-
-</section>
-
-<!-- 3 Fragmento que se utiliza en la página modifca.html -->
-<section th:fragment="editar">
-
-</section>
-
-<!-- 4 fragmento que se utiliza para confirmar que se desea eliminar una categoria -->
-<section th:fragment="confirmarEliminar">
-
-</section>
 <!-- fragmento 1 para Agregar categoria en ventana modal -->
 <section th:fragment="agregar">
     <!-- Button trigger modal -->
@@ -34,7 +16,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             </button>
         </div>
     </div>
-
     <!-- Modal -->
     <div class="modal fade" id="agregarCategoriaModal" tabindex="-1"
         aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -76,4 +57,61 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             </div>
         </div>
     </div>
+</section>
+
+<!-- fragmento 2 para el listado de categorias -->
+<section th:fragment="listado" class="p-3">
+    <div class="row">
+        <div class="col-md-9">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>[[#{categoria.descripcion}]]</th>
+                        <th>[[#{categoria.imagen}]]</th>
+                        <th>[[#{categoria.activo}]]</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="categoria : ${categorias}">
+                        <td th:text="${categoria.idCategoria}"></td>
+                        <td th:text="${categoria.descripcion}"></td>
+                        <td>
+                            <img th:src="${categoria.rutaImagen}" height="50" alt="imagen"/>
+                        </td>
+                        <td th:text="${categoria.activo} ? 'Activa' : 'Inactiva'"></td>
+                        <td>
+                            <a th:href="@{/categoria/eliminar/{id}(id=${categoria.idCategoria})}"
+                               class="btn btn-danger btn-sm">
+                                <i class="fa-solid fa-trash"></i> [[#{accion.eliminar}]]
+                            </a>
+                            <a th:href="@{/categoria/modificar/{id}(id=${categoria.idCategoria})}"
+                               class="btn btn-warning btn-sm">
+                                <i class="fa-solid fa-pen"></i> [[#{accion.actualizar}]]
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body text-center">
+                    <h5 class="card-title">[[#{categoria.total}]]</h5>
+                    <h2>
+                        <i class="fa-solid fa-layer-group"></i> [[${totalCategorias}]]
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 3 Fragmento que se utiliza en la página modifca.html -->
+<section th:fragment="editar">
+</section>
+
+<!-- 4 fragmento que se utiliza para confirmar que se desea eliminar una categoria -->
+<section th:fragment="confirmarEliminar">
 </section>
