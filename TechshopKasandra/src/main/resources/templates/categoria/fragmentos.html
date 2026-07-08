@@ -4,7 +4,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
 -->
 <!-- fragmento 1 para Agregar categoria en ventana modal -->
-<!-- fragmento 1 para Agregar categoria en ventana modal -->
 <section th:fragment="agregar">
     <!-- Button trigger modal -->
     <div class="row py-4 mb-2 bg-light">
@@ -82,10 +81,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                         </td>
                         <td th:text="${categoria.activo} ? 'Activa' : 'Inactiva'"></td>
                         <td>
-                            <a th:href="@{/categoria/eliminar/{id}(id=${categoria.idCategoria})}"
-                               class="btn btn-danger btn-sm">
+                            <button type="button" class="btn btn-danger btn-sm"
+                                    data-bs-toggle="modal" data-bs-target="#confirmModal"
+                                    th:attr="data-bs-id=${categoria.idCategoria}, data-bs-descripcion=${categoria.descripcion}">
                                 <i class="fa-solid fa-trash"></i> [[#{accion.eliminar}]]
-                            </a>
+                            </button>
                             <a th:href="@{/categoria/modificar/{id}(id=${categoria.idCategoria})}"
                                class="btn btn-warning btn-sm">
                                 <i class="fa-solid fa-pen"></i> [[#{accion.actualizar}]]
@@ -108,10 +108,83 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
     </div>
 </section>
 
-<!-- 3 Fragmento que se utiliza en la página modifca.html -->
-<section th:fragment="editar">
+<!-- 3 Fragmento que se utiliza en la página modifica.html -->
+<section th:fragment="editar" class="container mt-4">
+    <div class="row mb-3">
+        <div class="col-md-6 offset-md-3">
+            <a th:href="@{/categoria/listado}" class="btn btn-primary">
+                <i class="fa-solid fa-arrow-left"></i> [[#{accion.regresar}]]
+            </a>
+        </div>
+    </div>
+
+    <form th:action="@{/categoria/guardar}" th:object="${categoria}" method="post" enctype="multipart/form-data">
+
+        <input type="hidden" th:field="*{idCategoria}"/>
+
+        <div class="row mb-3">
+            <div class="col-md-6 offset-md-3">
+                <label>[[#{categoria.descripcion}]]</label>
+                <input type="text" th:field="*{descripcion}" class="form-control"/>
+                <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6 offset-md-3">
+                <div class="form-check">
+                    <input type="checkbox" th:field="*{activo}" class="form-check-input"/>
+                    <label class="form-check-label">[[#{categoria.activo}]]</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6 offset-md-3">
+                <label>[[#{categoria.imagen}]]</label>
+                <input type="file" name="imagenFile" class="form-control" onchange="mostrarImagen(this)"/>
+                <img id="blah" th:src="*{rutaImagen}" alt="imagen de categoria" class="mt-2" height="200"/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 offset-md-3 text-end">
+                <button type="submit" class="btn btn-success">
+                    <i class="fa-solid fa-floppy-disk"></i> [[#{accion.guardar}]]
+                </button>
+            </div>
+        </div>
+
+    </form>
 </section>
 
 <!-- 4 fragmento que se utiliza para confirmar que se desea eliminar una categoria -->
 <section th:fragment="confirmarEliminar">
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form th:action="@{/categoria/eliminar}" method="post">
+                    <div class="modal-header bg-warning">
+                        <h5 class="modal-title">
+                            <i class="fa-solid fa-triangle-exclamation"></i> [[#{accion.confirmarEliminar}]]
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="idCategoria" id="modalId"/>
+                        <p>[[#{categoria.confirmarMensaje}]] <strong id="modalDescripcion"></strong>?</p>
+                        <p class="text-danger">[[#{accion.noReversible}]]</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fa-solid fa-trash"></i> [[#{accion.eliminar}]]
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fa-solid fa-xmark"></i> [[#{accion.cerrar}]]
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </section>
