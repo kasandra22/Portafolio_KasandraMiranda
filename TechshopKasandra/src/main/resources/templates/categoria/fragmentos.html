@@ -69,7 +69,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                         <th>[[#{categoria.descripcion}]]</th>
                         <th>[[#{categoria.imagen}]]</th>
                         <th>[[#{categoria.activo}]]</th>
-                        <th></th>
+                        <th sec:authorize="hasRole('ROLE_ADMIN')"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -80,7 +80,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                             <img th:src="${categoria.rutaImagen}" height="50" alt="imagen"/>
                         </td>
                         <td th:text="${categoria.activo} ? 'Activa' : 'Inactiva'"></td>
-                        <td>
+                        <td sec:authorize="hasRole('ROLE_ADMIN')">
                             <button type="button" class="btn btn-danger btn-sm"
                                     data-bs-toggle="modal" data-bs-target="#confirmModal"
                                     th:attr="data-bs-id=${categoria.idCategoria}, data-bs-descripcion=${categoria.descripcion}">
