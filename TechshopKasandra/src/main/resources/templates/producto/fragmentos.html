@@ -28,7 +28,7 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="idCategoria">[[#{producto.categoria}]]</label>
-                            <select class="form-select" name="idCategoria" id="idCategoria" aria-label="Default select example">
+                            <select class="form-select" name="categoria.idCategoria" id="idCategoria" aria-label="Default select example">
                                 <option th:each="c : ${categorias}" th:value="${c.idCategoria}">
                                     [[${c.descripcion}]]
                                 </option>
@@ -101,7 +101,7 @@
                         <td>
                             <img th:src="${producto.rutaImagen}" height="50" alt="imagen"/>
                         </td>
-                        <td th:text="${producto.idCategoria}"></td>
+                        <td th:text="${producto.categoria.descripcion}"></td>
                         <td th:text="${producto.activo} ? 'Activa' : 'Inactiva'"></td>
                         <td>
                             <button type="button" class="btn btn-danger btn-sm"
@@ -148,7 +148,7 @@
         <div class="row mb-3">
             <div class="col-md-6 offset-md-3">
                 <label for="idCategoria">[[#{producto.categoria}]]</label>
-                <select class="form-select" th:field="*{idCategoria}" id="idCategoria">
+                <select class="form-select" th:field="*{categoria.idCategoria}" id="idCategoria">
                     <option th:each="c : ${categorias}" th:value="${c.idCategoria}">
                         [[${c.descripcion}]]
                     </option>

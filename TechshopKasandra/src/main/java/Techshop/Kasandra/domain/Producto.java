@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Techshop.Kasandra.domain;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import lombok.Data;
 @Entity
 @Table(name = "producto")
 public class Producto implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -20,7 +22,9 @@ public class Producto implements Serializable {
     @Column(name = "id_producto")
     private Integer idProducto;
 
-    private Integer idCategoria;
+    @ManyToOne
+    @JoinColumn(name = "id_categoria")
+    private Categoria categoria;
 
     @Column(nullable = false, length = 50)
     @NotBlank(message = "La descripción no puede estar vacía.")
