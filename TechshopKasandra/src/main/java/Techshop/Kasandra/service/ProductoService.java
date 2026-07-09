@@ -19,15 +19,13 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Service
 public class ProductoService {
-    private final ProductoRepository productoRepository;
+   private final ProductoRepository productoRepository;
     private final CloudinaryStorageService cloudinaryStorageService;
-
     public ProductoService(ProductoRepository productoRepository,
                             CloudinaryStorageService cloudinaryStorageService) {
         this.productoRepository = productoRepository;
         this.cloudinaryStorageService = cloudinaryStorageService;
     }
-
     @Transactional(readOnly = true)
     public List<Producto> getProductos(boolean activo) {
         if (activo) {
@@ -35,12 +33,10 @@ public class ProductoService {
         }
         return productoRepository.findAll();
     }
-
     @Transactional(readOnly = true)
     public Optional<Producto> getProducto(Integer idProducto) {
         return productoRepository.findById(idProducto);
     }
-
     @Transactional
     public void save(Producto producto, MultipartFile imagenFile) {
         producto = productoRepository.save(producto);
@@ -55,7 +51,6 @@ public class ProductoService {
             }
         }
     }
-
     @Transactional
     public void delete(Integer idProducto) {
         if (!productoRepository.existsById(idProducto)) {
@@ -69,5 +64,23 @@ public class ProductoService {
         } catch (IOException e) {
             throw new RuntimeException("Error al eliminar la imagen en Cloudinary.", e);
         }
+    }
+ 
+    //Ejemplo de método utilizando consultas derivadas
+    @Transactional(readOnly = true)
+    public List<Producto> consultaDerivada(double precioInf, double precioSup) {
+        return productoRepository.findByPrecioBetweenOrderByPrecioAsc(precioInf, precioSup);
+    }
+ 
+    //Ejemplo de método utilizando consultas JPQL
+    @Transactional(readOnly = true)
+    public List<Producto> consultaJPQL(double precioInf, double precioSup) {
+        return productoRepository.consultaJPQL(precioInf, precioSup);
+    }
+ 
+    //Ejemplo de método utilizando consultas SQL nativas
+    @Transactional(readOnly = true)
+    public List<Producto> consultaSQL(double precioInf, double precioSup) {
+        return productoRepository.consultaSQL(precioInf, precioSup);
     }
 }
