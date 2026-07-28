@@ -1,15 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package Techshop.Kasandra.repository;
+
 import Techshop.Kasandra.domain.Usuario;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 import java.util.Optional;
-/**
- *
- * @author HP
- */
-public interface UsuarioRepository extends  JpaRepository<Usuario, Integer> {
-    Optional <Usuario> findByUsernameAndActivoTrue (String Username);
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
+
+    public Optional<Usuario> findByUsernameAndActivoTrue(String username);
+
+    public List<Usuario> findByActivoTrue();
+
+    public Optional<Usuario> findByUsername(String username);
+
+    public Optional<Usuario> findByUsernameAndPassword(String username, String password);
+
+    public Optional<Usuario> findByUsernameOrCorreo(String username, String correo);
+
+    public boolean existsByUsernameOrCorreo(String username, String correo);
+
 }
