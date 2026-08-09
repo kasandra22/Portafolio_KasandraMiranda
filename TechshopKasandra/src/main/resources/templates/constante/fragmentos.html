@@ -1,0 +1,109 @@
+<!-- Fragmento para Agregar constante en ventana modal -->
+<section th:fragment="agregar">
+
+    <!-- Button trigger modal -->
+    <div class="row py-2 bg-light">
+        <div class="col-md-1"></div>
+
+        <div class="col-md-3">
+            <button
+                type="button"
+                class="btn btn-primary"
+                sec:authorize="hasRole('ROLE_ADMIN')"
+                data-bs-toggle="modal"
+                data-bs-target="#agregarConstanteModal">
+
+                <i class="fa-solid fa-plus"></i>
+                [[#{constante.agregar}]]
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade"
+         id="agregarConstanteModal"
+         tabindex="-1"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header bg-info text-white">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                        <i class="fa-solid fa-layer-group"></i>
+                        [[#{constante.agregar}]]
+                    </h1>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                    </button>
+                </div>
+
+                <form th:action="@{/constante/guardar}"
+                      th:object="${constante}"
+                      class="was-validated"
+                      method="post">
+
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+                            <label for="atributo">
+                                [[#{constante.atributo}]]
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                th:field="*{atributo}"
+                                required="true"/>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="valor">
+                                [[#{constante.valor}]]
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                th:field="*{valor}"
+                                required="true"/>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+
+                            <i class="fa-solid fa-xmark"></i>
+                            [[#{accion.cancelar}]]
+
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            [[#{accion.guardar}]]
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+</section>
