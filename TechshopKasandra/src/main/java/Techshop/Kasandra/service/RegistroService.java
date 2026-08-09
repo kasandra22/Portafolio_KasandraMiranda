@@ -3,11 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Techshop.Kasandra.service;
+
+import Techshop.Kasandra.domain.Constante;
 import Techshop.Kasandra.domain.Usuario;
 import jakarta.mail.MessagingException;
 import java.util.Locale;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.stereotype.Service;
@@ -19,15 +20,25 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Service
 public class RegistroService {
-     private final CorreoService correoService;
+
+    private final CorreoService correoService;
     private final UsuarioService usuarioService;
     private final MessageSource messageSource;
+    private final ConstanteService constanteService;
+    private final String servidor;
 
-    public RegistroService(CorreoService correoService, UsuarioService usuarioService, MessageSource messageSource) {
+    public RegistroService(CorreoService correoService, UsuarioService usuarioService, MessageSource messageSource, ConstanteService constanteService) {
         this.correoService = correoService;
         this.usuarioService = usuarioService;
         this.messageSource = messageSource;
+        this.constanteService = constanteService;
+        Optional<Constante> constante = constanteService.findByAtributo("servidor.http");
+        servidor = constante.isPresent() ? constante.get().getValor() : "localhost";
     }
+
+    //Ojo cómo le lee una informacion del application.properties
+    // @Value("${servidor.http}")
+    //private String servidor;
 
     //Este método se usa en el enlace del correo enviado...
     public Model activar(Model model, String username, String clave) {
@@ -92,10 +103,6 @@ public class RegistroService {
         }
         return clave;
     }
-
-    //Ojo cómo le lee una informacion del application.properties
-    @Value("${servidor.http}")
-    private String servidor;
 
     private void enviaCorreoActivar(Usuario usuario, String clave) throws MessagingException {
         String mensaje = messageSource.getMessage("registro.correo.activar", null, Locale.getDefault());
