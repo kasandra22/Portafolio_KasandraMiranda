@@ -30,9 +30,15 @@ public class ConstanteController {
 
     @GetMapping("/listado")
     public String listado(Model model) {
+
         var lista = constanteService.getConstantes();
+
         model.addAttribute("constantes", lista);
         model.addAttribute("totalConstantes", lista.size());
+
+        // Objeto necesario para el formulario de agregar
+        model.addAttribute("constante", new Constante());
+
         return "/constante/listado";
     }
 
@@ -63,10 +69,12 @@ public class ConstanteController {
             constanteService.delete(idConstante);
 
         } catch (IllegalArgumentException e) {
+
             titulo = "error";
             detalle = "constante.error01";
 
         } catch (IllegalStateException e) {
+
             titulo = "error";
             detalle = "constante.error02";
         }
@@ -87,7 +95,10 @@ public class ConstanteController {
             RedirectAttributes redirectAttributes) {
 
         try {
-            Constante constante = constanteService.getConstante(idConstante);
+
+            Constante constante =
+                    constanteService.getConstante(idConstante);
+
             model.addAttribute("constante", constante);
 
             return "/constante/modifica";
@@ -101,5 +112,4 @@ public class ConstanteController {
             return "redirect:/constante/listado";
         }
     }
-
 }
